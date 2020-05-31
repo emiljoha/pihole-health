@@ -6,13 +6,12 @@ venv:
 systemd:
 	PWD=$(pwd)
 	envsubst < pihole-health.service > pihole-health.service_tmp
-	sudo mv pihole-health.service_tmp /etc/systemd/system/pihole-health.service
-	sudo cp pihole-health.timer /etc/systemd/system/
-	systemctl stop pihole-health.service
-	systemctl stop pihole-health.timer
+	mv pihole-health.service_tmp /etc/systemd/system/pihole-health.service
+	cp pihole-health.timer /etc/systemd/system/
 	systemctl daemon-reload
 	systemctl enable pihole-health.service
 	systemctl enable pihole-health.timer
+	systemctl start pihole-health.timer
 
 install: venv systemd
 
@@ -23,6 +22,16 @@ health-check:
 		--test-domain ${test_domain} \
 		--test-domain-ip ${test_domain_ip}
 
-clean:
+clean-venv:
 	rm -rf venv
 
+clean-systemd:
+	systemctl daemon-reload
+	systemctl stop pihole-health.timer pihole-health.service
+	systemctl disable pihole-health.timer pihole-health.service
+	rm /etc/systemd/system/pihole-health.timer
+	rm /etc/systemd/system/pihole-health.service
+	systemctl daemon-reload
+	systemctl reset-failed
+
+clean: clean-venv clean-systemd
