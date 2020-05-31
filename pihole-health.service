@@ -3,8 +3,8 @@ Description=Runs PiHole health check.
 Wants=pihole-health.timer
 
 [Service]
-ExecStart="/usr/bin/make health-check"
-WorkingDirectory=$PWD
+ExecStart=/usr/bin/make health-check
+WorkingDirectory=${PWD}/
 
 [Install]
 WantedBy=multi-user.target
