@@ -1,0 +1,10 @@
+[Unit]
+Description=Run PiHole Health check every 10 minutes
+Requires=pihole-health.service
+
+[Timer]
+Unit=pihole-health.service
+OnCalendar=*:0/10
+
+[Install]
+WantedBy=timers.target
