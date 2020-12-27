@@ -12,8 +12,8 @@ if __name__ == '__main__':
                         help="Domain to use in test request.")
     parser.add_argument("--test-domain-ip", type=str,
                         help="Ip address expected for test-domain")
-    parser.add_argument("--resolver-timeout", type=float, default=0.5)
-    parser.add_argument("--resolver-lifetime", type=float, default=0.5)
+    parser.add_argument("--resolver-timeout", type=float, default=1)
+    parser.add_argument("--resolver-lifetime", type=float, default=1)
 
     args = parser.parse_args()
 
